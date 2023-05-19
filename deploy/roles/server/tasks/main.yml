@@ -12,11 +12,6 @@
   tags: [nginx, keys, shadowsocks]
 
 
-- name: Seting certificate generation
-  import_tasks: certbot.yml
-  tags: keys
-
-
 - name: Running nginx
   import_tasks: nginx.yml
   tags: nginx

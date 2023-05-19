@@ -3,15 +3,13 @@ server {
 
   server_name {{ host }};
 
-  ssl_certificate /data/certs/live/{{ host }}/fullchain.pem;
-  ssl_certificate_key /data/certs/live/{{ host }}/privkey.pem;
+  access_log off;
 
+  ssl_certificate         SSL_CERT;
+  ssl_certificate_key     SSL_KEY;
+  ssl_trusted_certificate SSL_CHAIN_CERT;
 
-  location ^~/.well-known{
-    allow all;
-    root /data/letsencrypt/;
-  }
-
+  add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
 
   location = /{{ endpoint }}{
 		if ($http_upgrade != "websocket") { 
@@ -19,19 +17,22 @@ server {
 		}
 		proxy_redirect off;
 		proxy_http_version 1.1;
-		proxy_pass https://127.0.0.1:9000/;
+		proxy_pass https://shadowsocks:9000/;
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Connection "upgrade";
 		proxy_set_header Host $http_host;
 	}
 
-}
-
-server {
-  listen 80 default_server;
-
-  server_name _;
-
-  return 301 https://$host$request_uri;
+	{% if enable_admin %}
+		location /wg/ {
+			proxy_redirect / /wg/;
+			proxy_cookie_path / /wg/;
+			proxy_http_version 1.1;
+			proxy_set_header Upgrade $http_upgrade;
+			proxy_set_header Connection "upgrade";
+			proxy_set_header Host $http_host;
+			proxy_pass http://wg:51821/;
+		}
+	{% endif %}
 
 }

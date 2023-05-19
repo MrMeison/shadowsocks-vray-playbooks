@@ -114,13 +114,13 @@ pip install -r requirements.txt
 Для работы прокси сервера на удаленной машине должен быть установлен docker, docker-compose, а также открыты 80 и 443 порты. Если этого нет, произведите первичную настройку командой
 
 ```bash
-ansible-playbook -i inventories/hosts.ini --extra-vars "@variables.yml"  deploy/setup.yml 
+ansible-playbook -i inventories/hosts.ini --extra-vars "@variables.yml"  deploy/setup.yml -v
 ```
 
 После успешной настройки выгрузите прокси сервер и генератор ключей командой
 
 ```bash
-ansible-playbook -i inventories/hosts.ini --extra-vars "@variables.yml"  deploy/server.yml   
+ansible-playbook -i inventories/hosts.ini --extra-vars "@variables.yml"  deploy/server.yml -v
 ```
 
 Доступные теги для первичной настройки сервера:

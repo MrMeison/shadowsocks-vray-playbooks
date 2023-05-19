@@ -1,5 +1,5 @@
 - name: Installing dependencies
-  become: yes
+  become: true
   apt:
     name: "{{item}}"
     state: present
@@ -15,21 +15,21 @@
 
 
 - name: Adding GPG key
-  become: yes
+  become: true
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 
 - name: Adding docker repository
-  become: yes
+  become: true
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu bionic stable
     state: present
 
 
 - name: Installing docker
-  become: yes
+  become: true
   apt:
     name: "{{item}}"
     state: latest
@@ -42,7 +42,7 @@
 
 
 - name: Ensuring the user is added to the docker group
-  become: yes
+  become: true
   ansible.builtin.user:
     name: "{{ user }}"
     groups: docker
