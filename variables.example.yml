@@ -1,3 +1,5 @@
+ip: 127.0.0.1
+password: yourpassword
 user: server_user
 host: yourserver.domain.net
 email: youremail@provider.com
@@ -7,3 +9,4 @@ local_port: 8000
 fast_open: true
 endpoint: ss
 enable_firewall: yes
+inited: false

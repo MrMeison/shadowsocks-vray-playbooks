@@ -1,8 +1,10 @@
-version: "3.8"
+version: '2'
 services:
 
 # Nginx server
   nginx:
+    logging:
+      driver: none
     hostname: nginx
     restart: always
     container_name: server
@@ -11,7 +13,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ~/shadowsocks_config/certs-data/certs/:/etc/nginx/ssl/:rw
+      - ~/shadowsocks_config/certs-data/certs/:/etc/nginx/ssl/
       - ./nginx/default.conf:/etc/nginx/service.conf
     environment:
       - TZ=Europe/Moscow
@@ -24,6 +26,8 @@ services:
 
 # Shadowsocks server
   shadowsocks:
+    logging:
+      driver: none
     hostname: shadowsocks
     ports:
     - "9000:9000/tcp"
@@ -32,10 +36,13 @@ services:
     image: teddysun/shadowsocks-rust
     restart: always
     volumes:
-      - ./shadowsocks/config.json:/etc/shadowsocks-rust/config.json/:rw
-      - ~/shadowsocks_config/certs-data/certs/:/data/certs/:rw
+      - ./shadowsocks/config.json:/etc/shadowsocks-rust/config.json
+      - ./shadowsocks/log4rs.yml:/etc/shadowsocks-rust/log4rs.yml
+      - ~/shadowsocks_config/certs-data/certs/:/data/certs/
   
   wg:
+    logging:
+      driver: none
     hostname: wg
     container_name: wg
     image: weejewel/wg-easy

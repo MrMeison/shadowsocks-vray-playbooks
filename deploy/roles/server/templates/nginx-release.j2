@@ -3,6 +3,8 @@ server {
 
   server_name {{ host }};
 
+  error_log /dev/null crit;
+
   access_log off;
 
   ssl_certificate         SSL_CERT;
@@ -23,7 +25,8 @@ server {
 		proxy_set_header Host $http_host;
 	}
 
-	{% if enable_admin %}
+	
+	{% if not inited %}
 		location /wg/ {
 			proxy_redirect / /wg/;
 			proxy_cookie_path / /wg/;

@@ -1,0 +1,4 @@
+refresh_rate: 30 seconds
+root:
+  level: info
+  appenders: []
