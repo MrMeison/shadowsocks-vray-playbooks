@@ -3,3 +3,5 @@ variables.yml
 venv
 client-config
 inventories/hosts.ini
+**/adguard/work/*
+**/adguard/conf/*

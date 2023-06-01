@@ -23,6 +23,7 @@ services:
     links:
       - wg
       - shadowsocks
+      - adguard
 
 # Shadowsocks server
   shadowsocks:
@@ -39,7 +40,8 @@ services:
       - ./shadowsocks/config.json:/etc/shadowsocks-rust/config.json
       - ./shadowsocks/log4rs.yml:/etc/shadowsocks-rust/log4rs.yml
       - ~/shadowsocks_config/certs-data/certs/:/data/certs/
-  
+    links:
+      - adguard
   wg:
     logging:
       driver: none
@@ -58,8 +60,16 @@ services:
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
+    links:
+      - adguard
     sysctls:
       - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
-    
 
+  adguard:
+    hostname: adguard
+    container_name: adguard
+    image: adguard/adguardhome
+    volumes:
+      - ./adguard/conf:/opt/adguardhome/conf/:rw
+      - ~/shadowsocks_config/certs-data/certs/:/data/certs
