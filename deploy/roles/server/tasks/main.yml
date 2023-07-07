@@ -11,12 +11,18 @@
     dest: "~/shadowsocks_config/docker/.env"
   tags: [nginx, keys, shadowsocks]
 
+- name: Running shadowsocks proxy server
+  import_tasks: shadowsocks.yml
+  tags: shadowsocks
+
+- name: Running adguard proxy server
+  import_tasks: adguard.yml
+  tags: adguard
+
+- name: Running wireguard server
+  import_tasks: wireguard.yml
+  tags: wireguard
 
 - name: Running nginx
   import_tasks: nginx.yml
   tags: nginx
-
-
-- name: Running shadowsocks proxy server
-  import_tasks: shadowsocks.yml
-  tags: shadowsocks

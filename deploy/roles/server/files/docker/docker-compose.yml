@@ -1,6 +1,5 @@
-version: '2'
+version: '3'
 services:
-
 # Nginx server
   nginx:
     logging:
@@ -16,9 +15,9 @@ services:
       - ~/shadowsocks_config/certs-data/certs/:/etc/nginx/ssl/
       - ./nginx/default.conf:/etc/nginx/service.conf
     environment:
-      - TZ=Europe/Moscow
-      - LETSENCRYPT=true
       - LE_EMAIL=$ADMIN_EMAIL
+      - TZ=Europe/Berlin
+      - LETSENCRYPT=true
       - LE_FQDN=$HOST
     links:
       - wg
@@ -55,8 +54,8 @@ services:
       - "51820:51820/udp"
       - "51821:51821/tcp"
     environment:
-      WG_HOST: $IP
-      PASSWORD: $ADMIN_PASSWORD
+      WG_HOST: ${IP}
+      PASSWORD: ${ADMIN_PASSWORD}
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -67,6 +66,8 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
 
   adguard:
+    logging:
+        driver: none
     hostname: adguard
     container_name: adguard
     image: adguard/adguardhome

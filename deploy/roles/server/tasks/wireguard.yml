@@ -1,0 +1,14 @@
+- name: Building wireguard service
+  docker_compose:
+    project_src: "~/shadowsocks_config/docker"
+    build: yes
+    services: "wg"
+  register: output
+
+
+- name: Restarting wireguard service
+  docker_compose:
+    project_src: "~/shadowsocks_config/docker"
+    restarted: yes
+    services: "wg"
+  register: output

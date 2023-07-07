@@ -1,0 +1,14 @@
+- name: Building adguard service
+  docker_compose:
+    project_src: "~/shadowsocks_config/docker"
+    build: yes
+    services: "adguard"
+  register: output
+
+
+- name: Restarting adguard service
+  docker_compose:
+    project_src: "~/shadowsocks_config/docker"
+    restarted: yes
+    services: "adguard"
+  register: output
